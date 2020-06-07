@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+    web:
+      build:
+        context: ./php
+        dockerfile: Dockerfile
+      container_name: web_mdb
+      depends_on:
+        - mysql
+      volumes:
+        - ./src:/var/www/html
+      ports:
+        - 7777:80
+    mysql:
+      image: mysql:5.7
+      environment:
+        MYSQL_ROOT_PASSWORD: rootpassword
+        MYSQL_USER: test_user
+        MYSQL_PASSWORD: test_pass
+        MYSQL_DATABASE: test_db1
+        SERVICE_TAGS: dev
+        SERVICE_NAME: mysql
+      container_name: mysql_mdb
+      restart: always
+      tty: true
+      ports:
+        - "4308:3306"
+      volumes:
+        - ./db/mysql_data:/var/lib/mysql  
+        - ./provision/mysql:/docker-entrypoint-initdb.d
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin:4.7
+      depends_on:
+        - mysql
+      ports:
+        - "6066:80"
+      environment:
+        - PMA_HOST=mysql_mdb
+        - PMA_PORT=3306
+      volumes:
+        - /sessions
+      container_name: phpmyadmin_mdb
+
+      #sudo docker-compose exec web php /var/www/html/artisan storage:link
