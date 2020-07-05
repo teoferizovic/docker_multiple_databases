@@ -17,4 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/projects/index','ProjectController@index');
+Route::post('/user/register','UserController@register');
+
+Route::post('/user/login','UserController@login');
+
+Route::put('/user/logout','UserController@logout');
+
+Route::group(['middleware' => ['jwt.verify']], function() {
+	Route::get('/projects/index','ProjectController@index');
+});
+

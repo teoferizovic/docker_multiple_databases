@@ -11,7 +11,7 @@ services:
       volumes:
         - ./src:/var/www/html
       ports:
-        - 7777:80
+        - 7777:80   
     mysql:
       image: mysql:5.7
       environment:
@@ -41,5 +41,15 @@ services:
       volumes:
         - /sessions
       container_name: phpmyadmin_mdb
+    composer:
+      image: composer:latest
+      container_name: composer
+      volumes:
+        - ./src:/var/www/html
+      working_dir: /var/www/html
+      depends_on:
+        - web
+         
 
       #sudo docker-compose exec web php /var/www/html/artisan storage:link
+      #https://gist.github.com/deardooley/865b7f10a9d14c9da126

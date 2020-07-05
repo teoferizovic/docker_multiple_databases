@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class ProjectController extends Controller
 {
@@ -12,7 +13,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $projects = Project::all();
         return \Response::json($projects,200);
