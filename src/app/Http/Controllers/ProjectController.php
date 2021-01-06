@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Project;
 use Illuminate\Http\Request;
 use JWTAuth;
+use App\Jobs\ProcessPodcast;
 
 class ProjectController extends Controller
 {
@@ -84,4 +85,12 @@ class ProjectController extends Controller
     {
         //
     }
+
+    public function test()
+    {
+        ProcessPodcast::dispatch();
+
+        return \Response::json(["message"=>"Data saved!"],201);
+    }
+
 }

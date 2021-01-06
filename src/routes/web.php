@@ -27,3 +27,5 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 	Route::get('/projects/index','ProjectController@index');
 });
 
+Route::get('/projects/test','ProjectController@test');
+

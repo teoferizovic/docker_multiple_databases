@@ -43,13 +43,19 @@ services:
       container_name: phpmyadmin_mdb
     composer:
       image: composer:latest
-      container_name: composer
+      container_name: composer_mdb
       volumes:
         - ./src:/var/www/html
       working_dir: /var/www/html
       depends_on:
         - web
-         
+    supervisord:
+      build:
+        context: ./supervisord
+        dockerfile: Dockerfile
+      container_name: supervisord_mdb
+      volumes:
+        - ./src:/var/www/html   
 
       #sudo docker-compose exec web php /var/www/html/artisan storage:link
       #https://gist.github.com/deardooley/865b7f10a9d14c9da126
